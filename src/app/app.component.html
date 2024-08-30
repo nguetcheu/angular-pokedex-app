@@ -6,6 +6,6 @@
 
 <p>Points de vie : {{ life() }}</p>
 
-<button (click)="incrementLife()">+</button>
-<button (click)="decrementLife()">-</button>
+<button (click)="incrementLife()" [disabled]="life() >= 30">+</button>
+<button (click)="decrementLife()" [disabled]="life() <= 0">-</button>
 <h1>Double la valeur du signal {{ doubleLife() }}</h1>
