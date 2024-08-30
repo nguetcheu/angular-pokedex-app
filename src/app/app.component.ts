@@ -1,4 +1,7 @@
 import { Component, computed, effect, signal } from '@angular/core';
+import { POKEMON_LIST } from './pokemon-list.fake';
+import { iterator } from 'rxjs/internal/symbol/iterator';
+import { Pokemon } from './pokemon.model';
 
 @Component({
   selector: 'app-root',
@@ -8,33 +11,30 @@ import { Component, computed, effect, signal } from '@angular/core';
   styleUrl: './app.component.css',
 })
 export class AppComponent {
+  constructor() {}
+
   name = signal('Pikachu');
-  life = signal(21); // signal de base et un signal est une fonction
-  imageSrc = signal('https://assets.pokemon.com/assets/cms2/img/pokedex/detail/025.png');
-  taille = computed(() => {
-    if (this.life() <= 15) {
+  imageSrc = signal(
+    'https://assets.pokemon.com/assets/cms2/img/pokedex/detail/025.png'
+  );
+  size(pokemon: Pokemon) {
+    if (pokemon.life <= 15) {
       return 'Petit';
     }
-
-    if (this.life() > 15 && this.life() < 25) {
-      return 'Normal';
+    if (pokemon.life >= 25) {
+      return 'Grand';
     }
-    return 'Grand';
-  });
 
-  doubleLife = computed(() => this.life() * 2); // signal dérivé
+    return 'Moyen';
+  }
+  pokemonList = signal(POKEMON_LIST).apply(iterator);
+  pokemonId = signal(0);
 
-  constructor() {
-    effect(() => {
-      console.log('La vie du pokémon a été mis à jour :', this.life());
-    }); // Permet d'interagir avec toute les mises a jour d'un signal
+  incrementLife(pokemon: Pokemon) {
+    pokemon.life = pokemon.life + 1;
   }
 
-  incrementLife() {
-    this.life.update((n) => n + 1); // update permet de mettre a jour l'état d'un signal avec une fonction
-  }
-
-  decrementLife() {
-    this.life.update((n) => n - 1);
+  decrementLife(pokemon: Pokemon) {
+    pokemon.life = pokemon.life - 1;
   }
 }
