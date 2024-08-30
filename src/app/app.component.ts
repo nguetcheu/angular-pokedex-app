@@ -27,7 +27,7 @@ export class AppComponent {
 
     return 'Moyen';
   }
-  pokemonList = signal(POKEMON_LIST).apply(iterator);
+  pokemonList = signal(POKEMON_LIST);
   pokemonId = signal(0);
 
   incrementLife(pokemon: Pokemon) {
